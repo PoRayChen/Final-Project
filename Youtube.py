@@ -1,83 +1,20 @@
 from tkinter import *
-from tkinter import ttk
-from tkinter import filedialog
 from pytube import YouTube
 
-Folder_Name = ""
+root = Tk()
+root.geometry('500x300')
+root.resizable(0,0)
+root.title("DataFlair-youtube video downloade""r")
+Label(root, text='Youtube Video Downloader', font='arial 20 bold').pack()
 
-#file location
-def openLocation():
-    global Folder_Name
-    Folder_Name = filedialog.askdirectory()
-    if len(Folder_Name) > 1:
-        locationError.config(text=Folder_Name, fg="blue")
+link = StringVar()
+Label(root, text = 'Paste Link Here:', font = 'arial 15 bold').place(x= 160 , y = 60)
+link_enter = Entry(root, width = 70,textvariable = link).place(x = 32, y = 90)
 
-    else:
-        locationError.config(text="Choose Folder", fg ="red")
-
-def DownloadVideo():
-    choice = YTDChoose.get
-    url = ytdEntry.get()
-
-    if(len(url) >1):
-        YTDError.config(text="")
-        yt = YouTube(url)
-
-        if (choice == choices [0]):
-            select = yt.streams.filter(progressive=True).first()
-
-        elif (choice == choices [1]):
-            select = yt.streams.filter(progressive=True, file_extension="mp4").last()
-
-        elif (choice == choices [2]):
-            select = yt.streams.filter(only_audio=True).first()
-
-    select.download(Folder_Name)
-    YTDError.config(text="Download Finished")
-
-
-#gui for Downloader
-root=Tk()
-root.title("YouTube Downloader")
-root.geometry("450x400")
-root.columnconfigure(0, weight=1)
-
-#Label
-YTDLabel = Label(root, text="URL of the Video", font=("jost", 16))
-YTDLabel.grid()
-
-#entry
-ytdEntryVar = StringVar()
-ytdEntry = Entry(root, width=50, textvariable=ytdEntryVar)
-ytdEntry.grid()
-
-#error message
-YTDError = Label(root, text="Error", fg="red", font=("jost", 12))
-YTDError.grid()
-
-#save file
-saveLabel = Label(root, text="Save Video", font=("jost", 16))
-saveLabel.grid()
-
-#save entry
-saveEntry = Button(root, width=16, bg="pink", fg="black", text="Choose", command=openLocation)
-saveEntry.grid()
-
-#error msg location
-locationError = Label(root, text="Error", fg="red", font=("jost", 16))
-locationError.grid()
-
-#Quality location
-YTDQuality = Label(root, text="Choose Quality", font=("jost", 16))
-YTDQuality.grid()
-
-#Quality choose
-choices = ["720p", "144p", "Only Audio"]
-YTDChoose = ttk.Combobox(root, values=choices)
-YTDChoose.grid()
-
-#download
-downloadbtn = Button(root, text="Download", width= 12, fg="black", command=DownloadVideo)
-downloadbtn.grid()
-
+def Downloader():
+    url =YouTube(str(link.get()))
+    video = url.streams.first()
+    video.download()
+    Label(root, text = 'DOWNLOADED', font = 'arial 15').place(x= 180 , y = 210)
+Button(root,text = 'DOWNLOAD', font = 'arial 15 bold' ,bg = 'pale violet red', padx = 2, command = Downloader).place(x=180 ,y = 150)
 root.mainloop()
