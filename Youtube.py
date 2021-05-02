@@ -19,7 +19,7 @@ def DownloadVideo():
     choice = YTDChoose.get
     url = ytdEntry.get()
 
-    if(len(url)>1):
+    if(len(url) >1):
         YTDError.config(text="")
         yt = YouTube(url)
 
@@ -27,22 +27,19 @@ def DownloadVideo():
             select = yt.streams.filter(progressive=True).first()
 
         elif (choice == choices [1]):
-            select = yt.streams.filter(progressive=True, file_extension='mp4').last()
+            select = yt.streams.filter(progressive=True, file_extension="mp4").last()
+
         elif (choice == choices [2]):
             select = yt.streams.filter(only_audio=True).first()
-        else:
-            YTDError.config ("Paste Link", fg ="red")
+
     select.download(Folder_Name)
     YTDError.config(text="Download Finished")
 
 
-
-
-
 #gui for Downloader
-root = Tk()
+root=Tk()
 root.title("YouTube Downloader")
-root.geometry ("450x400")
+root.geometry("450x400")
 root.columnconfigure(0, weight=1)
 
 #Label
@@ -63,7 +60,7 @@ saveLabel = Label(root, text="Save Video", font=("jost", 16))
 saveLabel.grid()
 
 #save entry
-saveEntry = Button(root, width=16, bg="pink", fg="black", text="Choose", command =openLocation)
+saveEntry = Button(root, width=16, bg="pink", fg="black", text="Choose", command=openLocation)
 saveEntry.grid()
 
 #error msg location
@@ -80,7 +77,7 @@ YTDChoose = ttk.Combobox(root, values=choices)
 YTDChoose.grid()
 
 #download
-downloadbtn = Button(root, text="Download", width= 12, fg="black", command= DownloadVideo)
+downloadbtn = Button(root, text="Download", width= 12, fg="black", command=DownloadVideo)
 downloadbtn.grid()
 
 root.mainloop()
